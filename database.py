@@ -1,0 +1,93 @@
+import mysql.connector as mysql
+
+from config import *
+
+# Function to connect to MySQL server and optionally, database
+def connection(database=False):
+    args = {
+        'host': HOST,
+        'port': PORT,
+        'user': USER,
+        'password': PASSWORD,
+        'use_pure': True
+    }
+    if database:
+        args['database'] = database
+    return mysql.connect(**args)
+
+# Trying Connecting to MySQL server with credentials in config file
+# Connection to start as soon as this script is imported
+try:
+    print(f"Connecting to MySQL server on {HOST}:{PORT}...")
+    conn = connection()
+except mysql.errors.ProgrammingError:
+    print("MySQL User or password incorrect in config.ini")
+    exit()
+except mysql.errors.InterfaceError:
+    print("Can't connect to the MySQL Server.")
+    print("Make sure that the server is running")
+    exit()
+
+# Function to create new Database
+def createDB():
+    cursor = conn.cursor()
+    cursor.execute(f"CREATE DATABASE {DATABASE}")
+    cursor.close()
+
+# Function to run a sql script
+def source(filename, output=False):
+    cursor = conn.cursor(buffered=output)
+    with open('sql/' + filename) as f:
+        statements = f.read()
+        statements = statements.replace('\n', ' ')
+        statements = statements.replace(';', '\n')
+        for statement in statements.strip().splitlines():
+            cursor.execute(statement) if statement else None
+
+    if output:
+        result = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    if output:
+        return result
+
+
+
+
+# This section will run as soon as this script is imported
+# To check if the database for this app exists or not
+# The name of database is taken from the config file
+# If not existing already (e.g. running this app for the first time),
+# automatically creates the database and tables
+# Also connects to the database of MySQL server
+print(f"Connecting to {DATABASE} database...")
+cur = conn.cursor(buffered=True)
+newDB = False
+cur.execute("SHOW DATABASES")
+if (DATABASE,) not in cur.fetchall():
+    print(f"No database named {DATABASE} found. Creating Database...")
+    createDB()
+    newDB = True
+cur.close()
+conn.close()
+conn = connection(DATABASE)
+if newDB:
+    print("Creating required tables in the database...")
+    source('tables_schema.sql')
+
+
+# Running this script explicitly to delete the database
+# Implemented for developement purposes only
+# No need to run this script explicitly in production
+if __name__ == '__main__':
+    # Getting confirmation from the user
+    print("Running this script explicitly will delete the database with name as in config.ini")
+    x = input("Do you want to delete the database? [Y/n] ").upper()
+    if x == 'Y' or x == 'YES':
+        # Deleting the database with name as in config file
+        cur = conn.cursor()
+        cur.execute(f"DROP DATABASE IF EXISTS {DATABASE}")
+        cur.close()
+        print("database deleted")
+    print(conn)
+    conn.close()
