@@ -35,13 +35,16 @@ def createDB():
     cursor.close()
 
 # Function to run a sql script
-def source(filename, output=False):
+def source(filename, *args, output=False):
     cursor = conn.cursor(buffered=output)
     with open('sql/' + filename) as f:
         statements = f.read()
         statements = statements.replace('\n', ' ')
         statements = statements.replace(';', '\n')
         for statement in statements.strip().splitlines():
+            if args:
+                cursor.execute(statement, args) if statement else None
+                break
             cursor.execute(statement) if statement else None
 
     if output:
