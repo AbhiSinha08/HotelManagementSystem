@@ -49,22 +49,3 @@ CREATE TABLE Job(
     job_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     job_title VARCHAR(255),
     salary INT);
-
-
-ALTER TABLE Reservation ADD FOREIGN KEY
-   (cust_id) REFERENCES Customer(cust_id);
-
-ALTER TABLE Reservation ADD FOREIGN KEY
-   (room_id) REFERENCES Room(room_id);
-
-ALTER TABLE Room ADD FOREIGN KEY
-   (type_id) REFERENCES Room_Type(type_id);
-
-ALTER TABLE Transactions ADD FOREIGN KEY
-   (emp_id) REFERENCES Employees(emp_id);
-
-ALTER TABLE Transactions ADD FOREIGN KEY
-   (res_id) REFERENCES Reservation(res_id);
-
-ALTER TABLE Employees ADD FOREIGN KEY
-   (job_id) REFERENCES Job(job_id);

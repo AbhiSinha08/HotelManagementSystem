@@ -1,0 +1,1 @@
+DELETE FROM Customer WHERE cust_id = %s;

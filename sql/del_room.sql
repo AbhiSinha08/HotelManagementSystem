@@ -1,0 +1,1 @@
+DELETE FROM Room WHERE room_id = %s;

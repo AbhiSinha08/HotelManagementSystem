@@ -1,0 +1,1 @@
+SELECT dated, amount, payment_mode, status FROM Transactions WHERE transaction_id = %s;

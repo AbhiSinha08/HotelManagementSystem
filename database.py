@@ -3,7 +3,7 @@ import mysql.connector as mysql
 from config import *
 
 # Function to connect to MySQL server and optionally, database
-def connection(database=False):
+def connection(database=None):
     args = {
         'host': HOST,
         'port': PORT,
@@ -35,7 +35,7 @@ def createDB():
     cursor.close()
 
 # Function to run a sql script
-def source(filename, *args, output=False):
+def source(filename, *args, output=True):
     cursor = conn.cursor(buffered=output)
     with open('sql/' + filename) as f:
         statements = f.read()
@@ -76,7 +76,7 @@ conn.close()
 conn = connection(DATABASE)
 if newDB:
     print("Creating required tables in the database...")
-    source('tables_schema.sql')
+    source('tables_schema.sql', output=False)
 
 
 # Running this script explicitly to delete the database

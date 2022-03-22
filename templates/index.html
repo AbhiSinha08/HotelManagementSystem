@@ -1,10 +1,194 @@
 {% extends 'base.html' %}
 {% block body %}
 
-    <h1 class="text-center text-3xl py-2 mt-3"> Hotel Management System </h1>
-
-    <div>
-        
+    <div class="flex justify-between">
+        <button class="rounded-md bg-gray-400/20 hover:bg-gray-400/30 border-gray-100 px-4 pv-1 drop-shadow-md shadow-gray-400 transition-all duration-300">
+            &plus; Make New Reservation
+        </button>
+        <div class="relative group">
+            <span class="cursor-pointer"> &plus; Add </span>
+            <div class="hidden bg-white rounded-lg border-[1px] border-gray-100 group-hover:block absolute right-0 shadow-md shadow-gray-400">
+                <button class="px-4 py-1 hover:bg-gray-400/10 transition-all duration-300">
+                    Customer
+                </button>
+                <hr class="text-gray-400">
+                <button class="px-4 py-1 hover:bg-gray-400/10 transition-all duration-300">
+                    Employee
+                </button>
+            </div>
+        </div>
     </div>
-    
+
+    <div class="flex justify-between my-4">
+        <div class="flex gap-4 text-xl">
+            <button onclick="showTable('rooms')" class="rounded-md bg-orange-600 hover:bg-orange-700 px-3 text-white transition-all duration-300">
+                Rooms
+            </button>
+            <button onclick="showTable('reservations')" class="rounded-md bg-orange-600 hover:bg-orange-700 px-3 text-white transition-all duration-300">
+                Reservations
+            </button>
+        </div>
+        <div class="flex gap-4 text-xl">
+            <button onclick="showTable('customers')" class="rounded-md bg-orange-600 hover:bg-orange-700 px-3 text-white transition-all duration-300">
+                Customers
+            </button>
+            <button onclick="showTable('employees')" class="rounded-md bg-orange-600 hover:bg-orange-700 px-3 text-white transition-all duration-300">
+                Employees
+            </button>
+        </div>
+    </div>
+
+    <div id="details" class="outline outline-2 outline-gray-500 w-full rounded-lg max-h-[60vh] overflow-y-auto">
+        <table id="rooms" class="w-full">
+            <tr class="border-b-2 border-gray-400/70">
+                <th class="px-2 py-1 text-left font-medium"> Room No. </th>
+                <th class="px-2 py-1 text-left font-medium"> Room Type </th>
+                <th class="px-2 py-1 text-left font-medium"> Capacity </th>
+                <th class="px-2 py-1 text-left font-medium"> Description </th>
+                <th class="px-2 py-1 text-left font-medium"> Price </th>
+                <th class="px-2 py-1 text-left font-medium"> Status </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+            </tr>
+            {% for i in range(len_room) %}
+                <tr class="border-b-2 text-base border-dashed border-gray-400/40">
+                    <td class="px-1"> {{ room[i][0] }} </td>
+                    <td class="px-1"> {{ room_type[room[i][1]][0] }} </td>
+                    <td class="px-1"> {{ room_type[room[i][1]][1] }} </td>
+                    <td class="px-1 max-w-[30vw]"> {{ room[i][2] }} </td>
+                    <td class="px-1"> Rs. {{ room[i][3] }} </td>
+                    <td class="px-1"> {% if room[i][4] %}
+                                        <span class="text-green-600"> Empty </span>
+                                    {% else %}
+                                    <span class="text-red-600"> Full </span>
+                                    {% endif %} </td>
+                    <td class="px-1"> <button data-type="edit" data-id="{{ room[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                    <td class="px-1"> <button data-type="delete" data-id="{{ room[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                </tr>
+            {% endfor %}
+            <td><br></td>
+        </table>
+
+        <table id="reservations" class="hidden w-full">
+            <tr class="border-b-2 border-gray-400/70">
+                <th class="px-2 py-1 text-left font-medium"> Reservation No. </th>
+                <th class="px-2 py-1 text-left font-medium"> Reservation By </th>
+                <th class="px-2 py-1 text-left font-medium"> Room No. </th>
+                <th class="px-2 py-1 text-left font-medium"> From </th>
+                <th class="px-2 py-1 text-left font-medium"> To </th>
+                <th class="px-2 py-1 text-left font-medium"> Days </th>
+                <th class="px-2 py-1 text-left font-medium"> Transaction </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+            </tr>
+            {% for i in range(len_res) %}
+                <tr class="border-b-2 text-base border-dashed border-gray-400/40">
+                    <td class="px-1"> {{ res[i][0] }} </td>
+                    <td class="px-1"> {{ cust_dict[res[i][1]] }} </td>
+                    <td class="px-1"> {{ res[i][2] }} </td>
+                    <td class="px-1"> {{ res[i][4] }}
+                    <td class="px-1"> {{ res[i][5] }}
+                    <td class="px-1"> {{ res[i][6] }}
+                    <td class="px-1"> <button onclick="tranDetails('{{ res[i][3] }}')" class="text-blue-500 underline underline-offset-2"> {{ res[i][3] }} </button>
+                    <td class="px-1"> <button data-type="edit" data-id="{{ res[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                    <td class="px-1"> <button data-type="delete" data-id="{{ res[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                </tr>
+            {% endfor %}
+            <td><br></td>
+        </table>
+
+        <table id="customers" class="hidden w-full">
+            <tr class="border-b-2 border-gray-400/70">
+                <th class="px-2 py-1 text-left font-medium"> First Name </th>
+                <th class="px-2 py-1 text-left font-medium"> Last Name </th>
+                <th class="px-2 py-1 text-left font-medium"> Address </th>
+                <th class="px-2 py-1 text-left font-medium"> Phone No. </th>
+                <th class="px-2 py-1 text-left font-medium"> Current Status </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+            </tr>
+            {% for i in range(len_cust) %}
+                <tr class="border-b-2 text-base border-dashed border-gray-400/40">
+                    <td class="px-1"> {{ customer[i][1] }} </td>
+                    <td class="px-1"> {{ customer[i][2] }} </td>
+                    <td class="px-1 max-w-[30vw]"> {{ customer[i][3] }} </td>
+                    <td class="px-1"> {{ customer[i][4] }} </td>
+                    <td class="px-1"> {% if customer[i][5] %}
+                                        <span class="text-green-600"> Staying In </span>
+                                    {% else %}
+                                    <span class="text-red-600"> Not Staying In </span>
+                                    {% endif %} </td>
+                    <td class="px-1"> <button data-type="edit" data-id="{{ customer[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                    <td class="px-1"> <button data-type="delete" data-id="{{ customer[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                </tr>
+            {% endfor %}
+            <td><br></td>
+        </table>
+
+        <table id="employees" class="hidden w-full">
+            <tr class="border-b-2 border-gray-400/70">
+                <th class="px-2 py-1 text-left font-medium"> First Name </th>
+                <th class="px-2 py-1 text-left font-medium"> Last Name </th>
+                <th class="px-2 py-1 text-left font-medium"> Address </th>
+                <th class="px-2 py-1 text-left font-medium"> Phone No. </th>
+                <th class="px-2 py-1 text-left font-medium"> Position </th>
+                <th class="px-2 py-1 text-left font-medium"> Salary </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+                <th class="px-2 py-1"> &nbsp; </th>
+            </tr>
+            {% for i in range(len_emp) %}
+                <tr class="border-b-2 text-base border-dashed border-gray-400/40">
+                    <td class="px-1"> {{ employees[i][2] }} </td>
+                    <td class="px-1"> {{ employees[i][3] }} </td>
+                    <td class="px-1 max-w-[30vw]"> {{ employees[i][4] }} </td>
+                    <td class="px-1"> {{ employees[i][5] }} </td>
+                    <td class="px-1"> {{ jobs[employees[i][1]][0] }}
+                    <td class="px-1"> {{ jobs[employees[i][1]][1] }}
+                    <td class="px-1"> <button data-type="edit" data-id="{{ employees[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                    <td class="px-1"> <button data-type="delete" data-id="{{ employees[i][0] }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-60 hover:opacity-100" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg> </button> </td>
+                </tr>
+            {% endfor %}
+            <td><br></td>
+        </table>
+    </div>
+
+    <br>
+
+    <div class="flex justify-evenly px-16 text-xl">
+        <button class="rounded-lg shadow-md px-3 py-1 bg-blue-100 hover:bg-blue-500 hover:text-white transition-all duration-300">
+            Import From CSV
+        </button>
+        <button class="rounded-lg shadow-md px-3 py-1 bg-blue-100 hover:bg-blue-500 hover:text-white transition-all duration-300">
+            Export To CSV
+        </button>
+    </div>
+
 {% endblock body %}
