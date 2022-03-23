@@ -2,24 +2,24 @@
 {% block body %}
 
     <div class="flex justify-between">
-        <button class="rounded-md bg-gray-400/20 hover:bg-gray-400/30 border-gray-100 px-4 pv-1 drop-shadow-md shadow-gray-400 transition-all duration-300">
+        <button onclick="window.location.href='/reservation'" class="rounded-md bg-gray-400/20 hover:bg-gray-400/30 border-gray-100 px-4 pv-1 drop-shadow-md shadow-gray-400 transition-all duration-300">
             &plus; Make New Reservation
         </button>
         <div class="relative group">
             <span class="cursor-pointer"> &plus; Add </span>
             <div class="hidden bg-white rounded-lg border-[1px] border-gray-100 group-hover:block absolute right-0 shadow-md shadow-gray-400">
-                <button class="px-4 py-1 hover:bg-gray-400/10 transition-all duration-300">
+                <button onclick="window.location.href='/Customer'" class="px-4 py-1 hover:bg-gray-400/10 transition-all duration-300">
                     Customer
                 </button>
                 <hr class="text-gray-400">
-                <button class="px-4 py-1 hover:bg-gray-400/10 transition-all duration-300">
+                <button onclick="window.location.href='/Employee'" class="px-4 py-1 hover:bg-gray-400/10 transition-all duration-300">
                     Employee
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="flex justify-between my-4">
+    <div class="flex justify-start gap-x-16 my-4">
         <div class="flex gap-4 text-xl">
             <button onclick="showTable('rooms')" class="rounded-md bg-orange-600 hover:bg-orange-700 px-3 text-white transition-all duration-300">
                 Rooms
@@ -52,7 +52,7 @@
             </tr>
             {% for i in range(len_room) %}
                 <tr class="border-b-2 text-base border-dashed border-gray-400/40">
-                    <td class="px-1"> {{ room[i][0] }} </td>
+                    <td class="px-3"> {{ room[i][0] }} </td>
                     <td class="px-1"> {{ room_type[room[i][1]][0] }} </td>
                     <td class="px-1"> {{ room_type[room[i][1]][1] }} </td>
                     <td class="px-1 max-w-[30vw]"> {{ room[i][2] }} </td>
@@ -90,7 +90,7 @@
             </tr>
             {% for i in range(len_res) %}
                 <tr class="border-b-2 text-base border-dashed border-gray-400/40">
-                    <td class="px-1"> {{ res[i][0] }} </td>
+                    <td class="px-3"> {{ res[i][0] }} </td>
                     <td class="px-1"> {{ cust_dict[res[i][1]] }} </td>
                     <td class="px-1"> {{ res[i][2] }} </td>
                     <td class="px-1"> {{ res[i][4] }}
@@ -123,7 +123,7 @@
             </tr>
             {% for i in range(len_cust) %}
                 <tr class="border-b-2 text-base border-dashed border-gray-400/40">
-                    <td class="px-1"> {{ customer[i][1] }} </td>
+                    <td class="px-3"> {{ customer[i][1] }} </td>
                     <td class="px-1"> {{ customer[i][2] }} </td>
                     <td class="px-1 max-w-[30vw]"> {{ customer[i][3] }} </td>
                     <td class="px-1"> {{ customer[i][4] }} </td>
@@ -159,7 +159,7 @@
             </tr>
             {% for i in range(len_emp) %}
                 <tr class="border-b-2 text-base border-dashed border-gray-400/40">
-                    <td class="px-1"> {{ employees[i][2] }} </td>
+                    <td class="px-3"> {{ employees[i][2] }} </td>
                     <td class="px-1"> {{ employees[i][3] }} </td>
                     <td class="px-1 max-w-[30vw]"> {{ employees[i][4] }} </td>
                     <td class="px-1"> {{ employees[i][5] }} </td>
@@ -192,3 +192,6 @@
     </div>
 
 {% endblock body %}
+{% block script %}
+    <script src="../static/script.js"></script>
+{% endblock script %}

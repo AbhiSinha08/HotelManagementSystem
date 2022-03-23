@@ -35,7 +35,7 @@ def createDB():
     cursor.close()
 
 # Function to run a sql script
-def source(filename, *args, output=True):
+def source(filename, *args, output=True, lastRowId=False):
     cursor = conn.cursor(buffered=output)
     with open('sql/' + filename) as f:
         statements = f.read()
@@ -49,9 +49,11 @@ def source(filename, *args, output=True):
 
     if output:
         result = cursor.fetchall()
+    if lastRowId:
+        result = cursor.lastrowid
     conn.commit()
     cursor.close()
-    if output:
+    if output or lastRowId:
         return result
 
 

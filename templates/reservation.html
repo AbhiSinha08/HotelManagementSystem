@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="text-center text-2xl opacity-60"> Make a Reservation </div>
+    <div class="w-full flex justify-center my-4">
+        <form action="/reservation" method="post" class="bg-blue-100 px-16 py-8 rounded-lg shadow-md">
+            <div>
+                Customer Details <br>
+                <input list="customers" name="cust" id="cust" placeholder="Customer Name" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+                <datalist id="customers">
+                    {% for cust in customer %}
+                        <option value="{{ cust[4] }}"> {{ cust[1] }} {{ cust[2] }}, {{ cust[4] }} </option>
+                    {% endfor %}
+                </datalist>
+            </div>
+            <div>
+                <div class="flex justify-between mb-3">
+                    Room no. <br>
+                    <select name="room" id="room" class="bg-white px-2 py-1 rounded-md mx-4">
+                        <option value="" selected disabled hidden> Select A Room </option>
+                        {% for room in rooms %}
+                            <option value="{{ room[0] }}"> {{ room[0] }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-around gap-4">
+                <div>
+                    From <br>
+                    <input type="date" name="in" id="in" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+                </div>
+                <div>
+                    To <br>
+                    <input type="date" name="out" id="out" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+                </div>
+            </div>
+            <br>
+            <div class="text-center text-xl opacity-60"> Transaction Details </div>
+            <div>
+                Transaction ID <br>
+                <input type="text" name="txn" id="txn" placeholder="Transaction ID" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+            </div>
+            <div class="flex justify-start">
+                <span class="mr-2 pt-3"> Date: &nbsp;</span>
+                <input type="date" name="dated" id="dated" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+            </div>
+            <div class="flex justify-start">
+                <span class="mr-2 pt-3"> Payment Mode: &nbsp; </span>
+                <input type="text" name="mode" id="mode" placeholder="Payment Mode" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+            </div>
+            <div class="flex justify-start">
+                <span class="mr-2 pt-3"> Amount: &nbsp; </span>
+                <input type="number" name="amount" id="amount" placeholder="Amount" class="rounded-md border-[1px] border-gray-500 px-2 py-1 focus:border-blue-500 mb-4 mt-1 -ml-1">
+            </div>
+            <div>
+                <div class="flex justify-start mb-3">
+                    Payment Status: <br>
+                    <select name="status" id="status" class="bg-white px-2 py-1 rounded-md mx-4">
+                        <option value="1" selected> Success </option>
+                        <option value="0"> Pending </option>
+                        <option value="-1"> Failed </option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <button class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4" type="submit"> Submit </button>
+            </div> 
+        </form>
+    </div>
+{% endblock body %}
