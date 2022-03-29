@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2 class="text-center text-2xl mt-8 mb-4"> Import data from CSV </h2>
+    <div class="p-4 h-full flex flex-col items-center">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Customers' Data: </span>
+            <form action="/import/cust" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+        <hr class="w-[60%] -mb-2">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Reservations' Data: </span>
+            <form action="/import/res" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+        <hr class="w-[60%] -mb-2">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Rooms' Data: </span>
+            <form action="/import/room" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+        <hr class="w-[60%] -mb-2">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Room Types' Data: </span>
+            <form action="/import/room_type" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+        <hr class="w-[60%] -mb-2">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Transactions' Data: </span>
+            <form action="/import/tnx" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+        <hr class="w-[60%] -mb-2">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Employees' Data: </span>
+            <form action="/import/emp" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+        <hr class="w-[60%] -mb-2">
+        <div class="flex items-center my-4 justify-between w-[60%]">
+            <span class="mr-16 pt-3"> Import Jobs' Data: </span>
+            <form action="/import/job" method="post" enctype = "multipart/form-data">
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" class="rounded-lg shadow-md px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 mt-4"> Import </button>
+            </form>
+        </div>
+    </div>
+{% endblock body %}

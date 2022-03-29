@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div id="details" class="outline outline-2 outline-gray-500 w-full rounded-lg max-h-[60vh] overflow-y-auto">
+    <div id="details" class="outline outline-2 outline-gray-500 w-full rounded-lg max-h-[60vh] overflow-y-auto mt-8">
         <table id="rooms" class="w-full">
             <tr class="border-b-2 border-gray-400/70">
                 <th class="px-2 py-1 text-left font-medium"> Room No. </th>
@@ -183,10 +183,10 @@
     <br>
 
     <div class="flex justify-evenly px-16 text-xl">
-        <button class="rounded-lg shadow-md px-3 py-1 bg-blue-100 hover:bg-blue-500 hover:text-white transition-all duration-300">
+        <button onclick="window.location.href='/import'" class="rounded-lg shadow-md px-3 py-1 bg-blue-100 hover:bg-blue-500 hover:text-white transition-all duration-300">
             Import From CSV
         </button>
-        <button class="rounded-lg shadow-md px-3 py-1 bg-blue-100 hover:bg-blue-500 hover:text-white transition-all duration-300">
+        <button onclick="window.location.href='/export'" class="rounded-lg shadow-md px-3 py-1 bg-blue-100 hover:bg-blue-500 hover:text-white transition-all duration-300">
             Export To CSV
         </button>
     </div>

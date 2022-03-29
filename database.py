@@ -1,6 +1,7 @@
 import mysql.connector as mysql
 
 from config import *
+import csv
 
 # Function to connect to MySQL server and optionally, database
 def connection(database=None):
@@ -55,6 +56,45 @@ def source(filename, *args, output=True, lastRowId=False):
     cursor.close()
     if output or lastRowId:
         return result
+
+
+def import_from_csv(name, filename):
+    with open(filename, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)
+        if name == 'cust':
+            for row in reader:
+                row[4] = int(row[4])
+                source("new_customer.sql", *row, output=False)
+        elif name == 'res':
+            for row in reader:
+                row[0], row[1], row[5] = map(int, (row[0], row[1], row[5]))
+                source("new_reservation.sql", *row, output=False)
+        elif name == 'room':
+            for row in reader:
+                row[0], row[3], row[4] = map(int, (row[0], row[3], row[4]))
+                source("new_room.sql", *row, output=False)
+        elif name == 'room_type':
+            for row in reader:
+                row[2] = int(row[2])
+                source("new_room_type.sql", *row, output=False)
+        elif name == 'tnx':
+            for row in reader:
+                row[4], row[6], row[7] = map(int, (row[4], row[6], row[7]))
+                for i in (1,2):
+                    if row[i] == 'NULL':
+                        row[i] = None
+                    else:
+                        row[i] = int(row[i])
+                source("new_transaction.sql", *row, output=False)
+        elif name == 'emp':
+            for row in reader:
+                row[0], row[4] = int(row[0]), int(row[4])
+                source("new_employee.sql", *row, output=False)
+        elif name == 'job':
+            for row in reader:
+                row[1] = int(row[1])
+                source("new_job.sql", *row, output=False)
 
 
 

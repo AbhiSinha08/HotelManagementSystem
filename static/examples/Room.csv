@@ -1,0 +1,11 @@
+room_id,type_id,description,price,occupancy_status
+101,DXL,Delux Room with maximum capacity of 4 people,2000,1
+102,SDX,Super Delux Room with amazing window view and capacity of 4 people,3000,0
+103,SDX,Super Delux Room with amazing window view and capacity of 4 people,3000,1
+104,DXL,Delux Room with maximum capacity of 4 people,2000,0
+105,NAC,Normal Room with basic features like TV and AC,1500,1
+201,NAC,Normal Room with basic features like TV and AC,1500,0
+202,NAC,Normal Room with basic features like TV and AC,1500,0
+203,NOL,Normal Room with no AC,1250,1
+204,NOL,Normal Room with no AC,1250,0
+205,PRM,Primary Budget rooms for 2 people,1000,1

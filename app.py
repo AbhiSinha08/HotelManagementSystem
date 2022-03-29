@@ -1,15 +1,18 @@
 # Main server app
 
-from pickletools import read_uint1
 from flask import Flask, render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
 import os
+from os.path import join, dirname, realpath, basename
 import database
 import json
 from datetime import datetime
 
-os.chdir(__file__.replace(os.path.basename(__file__), ''))
+os.chdir(__file__.replace(basename(__file__), ''))
 
 app = Flask(__name__)
+UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads/')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
@@ -39,7 +42,7 @@ def customer():
         lname = request.form['lname']
         address = request.form['address']
         ph_no = request.form['ph_no']
-        database.source("new_customer.sql", fname, lname, address, ph_no, output=False)
+        database.source("new_customer.sql", fname, lname, address, ph_no, 0, output=False)
         return redirect(url_for('index'))
     return render_template("new_form.html", var="Customer")
 
@@ -77,7 +80,7 @@ def reservation():
                                 cust_id, room, t_id, in_date, out_date, days,
                                 output=False, lastRowId=True)
         database.source("new_transaction.sql",
-                        t_id, res_id, t_date, amount, mode, status, output=False)
+                        t_id, None, res_id, t_date, amount, mode, 1, status, output=False)
 
         return redirect(url_for('index'))
     customer = database.source("all_customers.sql")
@@ -109,6 +112,25 @@ def delete(name):
         database.source("del_employee.sql", id, output=False)
     
     return redirect(url_for('index'))
+
+@app.route('/import')
+def imp():
+    return render_template("import.html")
+
+@app.route('/import/<name>', methods=['POST'])
+def imprt(name):
+    file = request.files['file']
+    if file:
+        filename = secure_filename(file.filename)
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filename)
+        database.import_from_csv(name, filename)
+    return redirect(url_for('imp'))
+
+@app.route('/export')
+def exp():
+    return render_template("export.html")
+
 
 if __name__ == '__main__':
     app.run()
