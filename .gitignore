@@ -1,4 +1,6 @@
 __pycache__
 temp.py
+run.py
 mysql.cfg
 static/uploads/*
+static/exports/*

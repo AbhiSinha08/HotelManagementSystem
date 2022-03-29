@@ -97,6 +97,32 @@ def import_from_csv(name, filename):
                 source("new_job.sql", *row, output=False)
 
 
+def export_to_csv(name, filename):
+    if name == 'Customer':
+        fields = ['cust_id', 'cust_fname', 'cust_lname', 'cust_address', 'cust_ph_no', 'status']
+        rows = source("all_customers.sql")
+    elif name == 'Employee':
+        fields = ['emp_id', 'job_id', 'emp_fname', 'emp_lname', 'emp_address', 'emp_ph_no']
+        rows = source("all_employees.sql")
+    elif name == 'Job':
+        fields = ['job_id', 'job_title', 'salary']
+        rows = source("all_employees.sql")
+    elif name == 'Reservation':
+        fields = ['res_id', 'cust_id', 'room_id', 'transaction_id', 'in_date', 'out_date', 'days']
+        rows = source("all_reservations.sql")
+    elif name == 'Room_Type':
+        fields = ['type_id', 'name', 'capacity']
+        rows = source("all_room_types.sql")
+    elif name == 'Room':
+        fields = ['room_id', 'type_id', 'description', 'price', 'occupancy_status']
+        rows = source("all_rooms.sql")
+    elif name == 'Transaction':
+        fields = ['transaction_id', 'emp_id', 'res_id', 'dated', 'amount', 'payment_mode', 'type', 'status']
+        rows = source("all_transactions.sql")
+    with open(filename, 'w') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(fields)
+        csvwriter.writerows(rows)
 
 
 # This section will run as soon as this script is imported

@@ -1,5 +1,5 @@
 # Hotel Management System
-### DBMS Course Project bt Group-16, CS22
+### DBMS Course Project by Group-16, CS22
 #### Made using Python-Flask, MySQL, HTML, TailwindCSS and JavaScript
 
 ### Team Members

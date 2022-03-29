@@ -1,6 +1,6 @@
 # Main server app
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 from werkzeug.utils import secure_filename
 import os
 from os.path import join, dirname, realpath, basename
@@ -131,6 +131,14 @@ def imprt(name):
 def exp():
     return render_template("export.html")
 
+@app.route('/export/<name>')
+def exprt(name):
+    filename = f"./static/exports/{name}.csv"
+    database.export_to_csv(name, filename)
+
+    response = make_response(filename, 200)
+    response.mimetype = "text/plain"
+    return response
 
 if __name__ == '__main__':
     app.run()
