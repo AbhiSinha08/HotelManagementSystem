@@ -125,6 +125,16 @@ def export_to_csv(name, filename):
         csvwriter.writerows(rows)
 
 
+def clear():
+    global conn
+    cur = conn.cursor()
+    cur.execute(f"DROP DATABASE IF EXISTS {DATABASE}")
+    cur.close()
+    createDB()
+    conn = connection(DATABASE)
+    source('tables_schema.sql', output=False)
+
+
 # This section will run as soon as this script is imported
 # To check if the database for this app exists or not
 # The name of database is taken from the config file

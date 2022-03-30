@@ -140,5 +140,10 @@ def exprt(name):
     response.mimetype = "text/plain"
     return response
 
+@app.route('/clear')
+def clear():
+    database.clear()
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run()

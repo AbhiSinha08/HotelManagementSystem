@@ -69,3 +69,10 @@ for (var btn of buttons.employees) {
         })
     }
 }
+
+const clearBtn = document.getElementById("clear");
+clearBtn.addEventListener('click', () => {
+    if (confirm("Clear The Entire Database?")) {
+        window.location.href = '/clear';
+    }
+})
